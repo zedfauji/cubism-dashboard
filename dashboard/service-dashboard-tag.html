@@ -16,6 +16,7 @@ body {
 <script src="d3.v2.js"></script>
 <!-- customized version of cubism -->
 <script src="cubism.v3.js"></script>
+<script src="extended-cubism.js"></script>
 <script>
 
 var context = cubism.context()
@@ -95,32 +96,6 @@ diven3.append("p").attr("class", "latest_v_c").attr("name","latest_val_3");
 var matric_arr = [matrics_median,matrics_95th,matrics_99th,matrics_sum];
 var tag_arr = ["latest_val","latest_val_1","latest_val_2","latest_val_3"];
 
-context.on("focus", function(i) {
-  d3.selectAll(".value").style("right", i == null ? null : context.size() - 1 - i + "px");
-  console.log("Position :- " + i);
-  var _LATEST_VALUE_ = [];
-  if(i != null && i < context.size() - 50) { //--handling the internal call to this method--
-	//--fetching the value of all the matrices--
+CUSTOM_FIXED_RULE(context,matric_arr,tag_arr);
 
-	for(var i = 0; i < matric_arr.length; i++) {
-		for(j = 0; j < matric_arr[i].length; j++) {
-			if(matric_arr[i][j].valueAt(context.size() - 1) != undefined) {
-				_LATEST_VALUE_[j] = matric_arr[i][j].valueAt(context.size() - 1).toFixed(1);
-				document.getElementsByName(tag_arr[i])[j].innerHTML = _LATEST_VALUE_[j];
-				document.getElementsByName(tag_arr[i])[j].style.display = "";
-			}
-		}
-	}
-  }
-});
-
-//--function to remove the customized-fixed value of the matric on mouseout/blur--
-context.on("blur", function() {
-        for(var i = 0; i < tag_arr.length; i++) {
-                for (var j = 0; j < document.getElementsByName(tag_arr[i]).length; j++) {
-                        document.getElementsByName(tag_arr[i])[j].style.display = "none";
-                }
-        }
-});
 </script>
-
