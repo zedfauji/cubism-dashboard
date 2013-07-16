@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="1100">
+<title> Demo Program </title>
+<style>
+
+@import url(bootstrap.css);
+@import url(style.css);
+
+body {
+	padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+.latest_v_c {
+	float : right;
+	margin-top : -50px;
+	margin-right : 10px;
+	z-index : auto;
+	opacity: .8;
+/*	text-shadow: 0 1px 0 rgba(255,255,255,.5);*/
+	position : right;
+	font-size: 14;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font-weight : bold;
+}
+
+</style>
+<body>
+<script src="d3.v2.js"></script>
+<script src="cubism.v3.js"></script>
+<script>
+
+var _LATEST_VALUE_ = [];
+
+var context = cubism.context()
+	.serverDelay(10 * 1000) // allow 15 seconds of collection lag
+	.step(10000) // fifteen seconds per value
+	.size(1440); // fetch 1440 values (720p)
+
+var graphite = context.graphite("http://graphite1.pv.sv.nextag.com:8080");
+
+var matrics_median = [
+	graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.lu1.tag.GetById.mean,10))").alias("Average Mean for lu1 Ser"),
+];
+
+var matrics_sum_median = [
+	graphite.metric("sumSeries(group(transformNull(stats.timers.Clients.Services.PS.CN.lu1.tag.GetById.mean,10)))").alias("Total Mean for lu1 Ser"),
+];
+
+var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon_sum = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+d3.select("body").selectAll(".axis")
+	.data(["top", "bottom"])
+	.enter().append("div").attr("class", "fluid-row")
+	.attr("class", function(d) { return d + " axis"; })
+	.each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+d3.select("body").append("div")
+	.attr("class", "rule")
+	.call(context.rule());
+
+var diven = d3.select("body").selectAll(".horizon")
+	.data(matrics_median)
+	.enter().insert("div", ".bottom")
+	.attr("class", "horizon").call(horizon.extent([-10, 45]).height(100));
+
+diven.append("p")
+	.attr("class", "latest_v_c")
+	.attr("name","latest_val");
+
+d3.select("body").selectAll(".horizon_sum")
+        .data(matrics_sum_median)
+        .enter().insert("div", ".bottom")
+        .attr("class", "horizon").call(horizon.extent([-10, 50]).height(100));
+
+context.on("focus", function(i) {
+	d3.selectAll(".value").style("right", i == null ? null : context.size()  - i + "px");
+	
+console.log("T --- " + i + " Type "  + typeof(i) );
+
+if(i != null || ( i > 1401 ) ) {
+	for(var i = 0; i < matrics_median.length; i++) {
+		if(matrics_median[i].valueAt(context.size() - 1) != undefined) {
+			_LATEST_VALUE_[i] = matrics_median[i].valueAt(context.size() - 1).toFixed(1);
+			document.getElementsByName("latest_val")[i].innerHTML = _LATEST_VALUE_[i];
+			document.getElementsByName("latest_val")[i].style.display = "";
+		}
+	}
+}
+});
+
+context.on("change", function(start,stop){
+//	parent.document.getElementById("updated_time").innerHTML = "Updated On :- " + stop;
+});
+
+context.on("blur", function() {
+	for (var i = 0; i < document.getElementsByName("latest_val").length; i++) {
+		document.getElementsByName("latest_val")[i].style.display = "none";
+	}
+});
+</script>
+</body>
+</html>

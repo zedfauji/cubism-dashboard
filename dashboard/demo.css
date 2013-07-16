@@ -1,0 +1,24 @@
+body {
+	font-size: 100%;
+	color: #222;
+	background: #ffffff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.6em;
+}
+
+.menu {
+	width: 99%;
+	margin: 2px;
+	padding: 3px;
+	background: #868EAD;
+	border: 1px solid;
+}
+.footer {
+	height: 2em;
+	width: 99%;
+        margin: 2px;
+        padding: 3px;
+        background: #6785FB;
+	font-size : 14;
+	font-weight : bold;
+}
