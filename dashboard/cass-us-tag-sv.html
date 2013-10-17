@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="1100">
+<title>Wize Commerce</title>
+<style>
+
+@import url(bootstrap.css);
+@import url(style.css);
+
+body {
+  padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+</style>
+<body>
+<!--   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        Frontend Graphite Metrics
+      </div>
+    </div> -->
+
+<script src="d3.v2.js"></script>
+<script src="cubism.v3.js"></script>
+<script src="extended-cubism.js"></script>
+<script>
+
+var context = cubism.context()
+    .serverDelay(60000) // allow 15 seconds of collection lag
+    .step(60000) // fifteen seconds per value
+    .size(1440); // fetch 1440 values (720p)
+
+//var graphite = context.graphite("http://graphite2.pv.sv.nextag.com:8080");
+	var sv_graphite = context.graphite("http://graphite2.pv.sv.nextag.com:8080");
+	var at_graphite = context.graphite("http://at-graphite2.pv.at.nextag.com:8080");
+	var sdx_graphite = context.graphite("http://sd-graphite2.pv.sd.nextag.com:8080");
+	var ie_graphite = context.graphite("http://sv-graphite2.pv.sv.nextag.com:8080");
+
+var matrics_product00 = [
+	sv_graphite.metric("scale(keepLastValue(stats.timers.cassandra.SV.cass*.Caches.Tag.KeyCache.RecentHitRate),100)").alias("KeyCache Hit Rate"),
+];
+
+var matrics_product01 = [
+	sv_graphite.metric("rangeOfSeries(scale(keepLastValue(stats.timers.cassandra.SV.cass*.ColumnFamilies.Tag.RecentReadLatencyMicros),0.001))").alias("Read Latency"),
+];
+
+var matrics_product02 = [
+	sv_graphite.metric("scale(keepLastValue(stats.timers.cassandra.SV.cass*.Caches.Tag.RowCache.RecentHitRate),100)").alias("RowCache HitRate"),
+];
+
+var matrics_product03 = [
+	sv_graphite.metric("keepLastValue(stats.timers.cassandra.SV.cass*.ColumnFamilies.Tag.LiveSSTableCount)").alias("SSTable Count"),
+];
+
+var matrics_product04 = [
+	sv_graphite.metric("rangeOfSeries(scale(keepLastValue(stats.timers.cassandra.SV.cass*.ColumnFamilies.Tag.RecentWriteLatencyMicros),0.01))").alias("Write Latency"),
+];
+
+var matrics_product101 = [
+	//sv_graphite.metric("keepLastValue(movingAverage(stats.timers.Cassandra.SV.cass*.Product.KeyCacheCapacity,10))").alias("KeyCache Capacity").summarize("avg"),
+	sv_graphite.metric("movingAverage(keepLastValue(stats.timers.cassandra.SV.cass*.Caches.Tag.KeyCache.Capacity),10)").alias("KeyCache Capacity").summarize("avg"),
+];
+
+var matrics_product102 = [
+//	sv_graphite.metric("keepLastValue(movingAverage(stats.timers.Cassandra.SV.cass*.Product.RowCacheCapacity,10))").alias("RowCache Capacity").summarize("avg"),
+];
+
+var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon1 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon2 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon3 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon4 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon101 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon102 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+d3.select("body").selectAll(".axis")
+    .data(["top", "bottom"])
+  .enter().append("div").attr("class", "fluid-row")
+    .attr("class", function(d) { return d + " axis"; })
+    .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+d3.select("body").append("div")
+    .attr("class", "rule")
+    .call(context.rule());
+
+d3.select("body").append("div")
+    .attr("class", "rule")
+    .call(context.rule());
+
+var diven = d3.select("body").selectAll(".horizon")
+    .data(matrics_product00)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon.extent([-150 , 250]).height(60));
+
+diven.append("p").attr("class", "latest_v_c").attr("name","latest_val");
+
+var diven1 = d3.select("body").selectAll(".horizon1")
+    .data(matrics_product01)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon1.extent([-3, 35]).height(60));
+
+diven1.append("p").attr("class", "latest_v_c").attr("name","latest_val_1");
+
+var diven2 = d3.select("body").selectAll(".horizon2")
+    .data(matrics_product02)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon2.extent([0, 500]).height(60));
+
+diven2.append("p").attr("class", "latest_v_c").attr("name","latest_val_2");
+
+var diven3 = d3.select("body").selectAll(".horizon3")
+    .data(matrics_product03)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon3.extent([-5, 40]).height(60));
+
+diven3.append("p").attr("class", "latest_v_c").attr("name","latest_val_3");
+
+var diven4 = d3.select("body").selectAll(".horizon4")
+    .data(matrics_product04)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon4.extent([0, 20]).height(60));
+
+diven4.append("p").attr("class", "latest_v_c").attr("name","latest_val_4");
+
+var diven101 = d3.select("body").selectAll(".horizon1")
+    .data(matrics_product101)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon101.extent([-20000000, 35000000]).height(60));
+
+diven101.append("p").attr("class", "latest_v_c").attr("name","latest_val_5");
+
+var diven102 = d3.select("body").selectAll(".horizon1")
+    .data(matrics_product102)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon102.extent([-2000000, 108000000]).height(60));
+
+diven102.append("p").attr("class", "latest_v_c").attr("name","latest_val_6");
+
+var matric_arr = [matrics_product00,matrics_product01,matrics_product02,matrics_product03,matrics_product04,matrics_product101,matrics_product102];
+var tag_arr = ["latest_val","latest_val_1","latest_val_2","latest_val_3","latest_val_4","latest_val_5","latest_val_6"];
+
+CUSTOM_FIXED_RULE(context,matric_arr,tag_arr);
+</script>
+

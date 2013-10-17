@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="1100">
+<title>Wize Commerce</title>
+<style>
+
+@import url(bootstrap.css);
+@import url(style.css);
+
+body {
+  padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+</style>
+<body>
+<!--   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        Frontend Graphite Metrics
+      </div>
+    </div> -->
+
+<script src="d3.v2.js"></script>
+<script src="cubism.v3.js"></script>
+<script src="extended-cubism.js"></script>
+<script>
+
+var context = cubism.context()
+    .step(300000) // fifteen seconds per value
+    .size(1440); // fetch 1440 values (720p)
+
+//var graphite = context.graphite("http://graphite1.pv.sv.nextag.com:8080");
+	var graphite = context.graphite("http://sv-graphite2.pv.sv.nextag.com:8080");
+	var at_graphite = context.graphite("http://at-graphite2.pv.at.nextag.com:8080");
+	var sdx_graphite = context.graphite("http://sd-graphite2.pv.sd.nextag.com:8080");
+	var ie_graphite = context.graphite("http://ie-graphite2.pv.ie.nextag.com:8080");
+
+var matrics_solr = [
+graphite.metric("averageSeries(movingAverage(stats.timers.kafka.sv.us.live.index.product.solr.kafka1.latency,10))").alias("Kafka-1 Latency "),
+graphite.metric("averageSeries(movingAverage(stats.timers.kafka.sv.us.live.index.product.solr.kafka2.latency,10))").alias("Kafka-2 Latency "),
+graphite.metric("averageSeries(movingAverage(stats.timers.kafka.sv.us.live.index.product.solr.kafka3.latency,10))").alias("Kafka-3 Latency "),
+graphite.metric("averageSeries(movingAverage(stats.timers.kafka.sv.us.live.index.product.solr.kafka4.latency,10))").alias("Kafka-4 Latency "),
+graphite.metric("averageSeries(movingAverage(stats.timers.kafka.sv.us.live.index.product.solr.kafka5.latency,10))").alias("Kafka-5 Latency "),
+];
+
+
+var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+d3.select("body").selectAll(".axis")
+    .data(["top", "bottom"])
+  .enter().append("div").attr("class", "fluid-row")
+    .attr("class", function(d) { return d + " axis"; })
+    .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+d3.select("body").append("div")
+    .attr("class", "rule")
+    .call(context.rule());
+
+d3.select("body").append("div")
+    .attr("class", "rule")
+    .call(context.rule());
+
+var diven = d3.select("body").selectAll(".horizon")
+    .data(matrics_solr)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon.extent([-25, 25]).height(60));
+
+diven.append("p").attr("class", "latest_v_c").attr("name","latest_val");
+
+
+var matric_arr = [matrics_solr];
+var tag_arr = ["latest_val"];
+
+CUSTOM_FIXED_RULE(context,matric_arr,tag_arr);
+
+
+</script>
+
