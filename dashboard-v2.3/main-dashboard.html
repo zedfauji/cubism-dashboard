@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Main Dashboard</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script src="js/menu.js"></script>
+</head>
+
+ <body onload = "setFirstPage('cache-multi-tag')">
+        <div id="middlebar">
+                <ul class="menu">
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_1',this)">| CACHE |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_11',this)">| CACHE-BOT |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_2',this)">| CASSANDRA |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_3',this)">| SOLR |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_4',this)">| SIGIRI |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_8',this)">| KAFKA |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_6',this)">| ROW |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_7',this)">| EU |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_5',this)">| XL |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_9',this)">| MB |</span></li>
+                        <li><span name = "menu" onclick="javascript:showlayer('sm_10',this)">| ZK |</span></li>
+                        <li><span name = "menu" id = "http://vm-alp1.pv.sv.nextag.com/tattle/Cubism-Fly/cubismFly.php" onclick = "javascript: generateHTML(this.id,1)" >| GEN |</span></li>
+                                <ul class="submenu" id="sm_1" style = "width: 270px">
+                                        <table> <tr>  
+					<td valign = "top"> <li><span style = "color:black;cursor:auto;margin-top=-10px">MULTI GET</li></span>
+					<li><span id="cache-multi-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Multi - Tag</span></li>
+                                        <!-- <li><span id="cache-multi-product" onclick = "javascript: generateHTML(this.id,0)">Multi - Product</span></li> -->
+                                        <li><span id="cache-multi-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Multi - Ptitle</span></li>
+					</td>
+					<td> <li><span style = "color:black;cursor:auto">SINGLE GET</li></span>
+                                        <li><span id="cache-single-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Tag</span></li>
+                                        <li><span id="cache-single-product" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Product</span></li>
+                                        <li><span id="cache-single-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Ptitle</span></li>
+					</td> </tr> </table>
+                                </ul>
+                                <ul class="submenu" id="sm_11" style = "margin-left: 9em;width: 270px">
+                                        <table> <tr>  
+					<td valign = "top"> <li><span style = "color:black;cursor:auto;margin-top=-10px">MULTI GET</li></span>
+					<li><span id="cache-multi-tag-bot" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Multi - Tag</span></li>
+                                        <!-- <li><span id="cache-multi-product" onclick = "javascript: generateHTML(this.id,0)">Multi - Product</span></li> -->
+                                        <li><span id="cache-multi-ptitle-bot" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Multi - Ptitle</span></li>
+					</td>
+					<td> <li><span style = "color:black;cursor:auto">SINGLE GET</li></span>
+                                        <li><span id="cache-single-tag-bot" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Tag</span></li>
+                                        <li><span id="cache-single-product-bot" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Product</span></li>
+                                        <li><span id="cache-single-ptitle-bot" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Single - Ptitle</span></li>
+					</td> </tr> </table>
+                                </ul>
+
+                                <ul class="submenu" style = "margin-left: 22em; width : 250px;" id="sm_2">
+					<table> 
+					<tr><td colspan = 3 align = "center"> <li><span style = "color:black;cursor:auto">US CLUSTER</li></span> </td></tr>
+					<tr> <td>
+					<li> <span style = "color:black;cursor:auto"> SVS</span> </li>
+                                        <li><span id="cass-us-product-sv" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="cass-us-ptitle-sv" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                        <li><span id="cass-us-tag-sv" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td> <td>
+					<li><span style = "color:black;cursor:auto"> SDX</span></li>
+                                        <li><span id="cass-us-product-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="cass-us-ptitle-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+					<li><span id="cass-us-tag-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td> <td>
+					<li><span style = "color:black;cursor:auto"> ATL</span></li>
+                                        <li><span id="cass-us-product-at" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="cass-us-ptitle-at" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                        <li><span id="cass-us-tag-at" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td> </tr> 
+					
+					<tr><td colspan = 3 align = "center"> <li><span style = "color:black;cursor:auto">EU CLUSTER</li></span> </td></tr>
+					<tr>
+					<!-- <td>
+					<li> <span style = "color:black;cursor:auto"> SVS</span> </li>
+                                        <li><span id="cass-eu-product-sv" onclick = "javascript: generateHTML(this.id,0)">Product</span></li>
+                                        <li><span id="cass-eu-ptitle-sv" onclick = "javascript: generateHTML(this.id,0)">Ptitle</span></li>
+                                        <li><span id="cass-eu-tag-sv" onclick = "javascript: generateHTML(this.id,0)">Tag</span></li>
+					</td> -->
+					 <td>
+					<li><span style = "color:black;cursor:auto"> SDX</span></li>
+                                        <li><span id="cass-eu-product-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="cass-eu-ptitle-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+					<li><span id="cass-eu-tag-sd" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td> <td>
+					<li><span style = "color:black;cursor:auto"> IEX</span></li>
+                                        <li><span id="cass-eu-product-ie" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="cass-eu-ptitle-ie" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                        <li><span id="cass-eu-tag-ie" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td> </tr>
+					</table>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 38em" id="sm_3">
+                                        <li><span id="solr-us-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">User - US</span></li>
+                                        <li><span id="solr-eu-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">User - EU</span></li>
+                                        <li><span id="solr-bot-us-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">BOT - US</span></li>
+                                        <li><span id="solr-traffic-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">TRAFFIC- US</span></li>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 45em; width:300px" id="sm_4">
+					<table width = "100%">
+					<tr><td colspan = 3 align = "center"> <li><span style = "color:black;cursor:auto">SINGLE GET</li></span> </td></tr>
+					 <tr> <td>
+					<li><span style = "color:black;cursor:auto"> Tag</span></li>
+                                        <li><span id="sigiri-single-get-tag-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                        <li><span id="sigiri-single-get-tag-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                        <li><span id="sigiri-single-get-tag-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                        <li><span id="sigiri-single-get-tag-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                        <li><span id="sigiri-single-get-tag-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+					</td> <td>
+					<li><span style = "color:black;cursor:auto"> Product</span></li>
+                                        <li><span id="sigiri-single-get-product-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                        <li><span id="sigiri-single-get-product-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                        <li><span id="sigiri-single-get-product-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                        <li><span id="sigiri-single-get-product-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                        <li><span id="sigiri-single-get-product-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+					</td> <td>
+					<li><span style = "color:black;cursor:auto">Ptitle</span></li>
+                                        <li><span id="sigiri-single-get-ptitle-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                        <li><span id="sigiri-single-get-ptitle-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                        <li><span id="sigiri-single-get-ptitle-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                        <li><span id="sigiri-single-get-ptitle-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                        <li><span id="sigiri-single-get-ptitle-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+					</td> </tr>
+					<tr><td colspan = 3 align = "center"> <li><span style = "color:black;cursor:auto">MULTI GET</li></span> </td></tr>
+					<tr> <td>
+                                         <li><span style = "color:black;cursor:auto">Tag</span></li>
+                                         <li><span id="sigiri-multi-get-tag-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                         <li><span id="sigiri-multi-get-tag-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                         <li><span id="sigiri-multi-get-tag-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                         <li><span id="sigiri-multi-get-tag-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                         <li><span id="sigiri-multi-get-tag-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+                                         </td><!-- <td>
+                                         <li><span style = "color:black;cursor:auto">Product</span></li>
+                                         <li><span id="sigiri-multi-get-product-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                         <li><span id="sigiri-multi-get-product-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                         <li><span id="sigiri-multi-get-product-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                         <li><span id="sigiri-multi-get-product-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                         <li><span id="sigiri-multi-get-product-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+                                         </td>--> <td>
+                                         <li><span style = "color:black;cursor:auto">Ptitle</span></li>
+                                         <li><span id="sigiri-multi-get-ptitle-median" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Median</span></li>
+                                         <li><span id="sigiri-multi-get-ptitle-95" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">95th</span></li>
+                                         <li><span id="sigiri-multi-get-ptitle-99" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">99th</span></li>
+                                         <li><span id="sigiri-multi-get-ptitle-misses" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Misses</span></li>
+                                         <li><span id="sigiri-multi-get-ptitle-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Count</span></li>
+                                         </td> </tr>
+ 					<tr><td colspan = 3 align = "center"> <li><span style = "color:black;cursor:auto">EXCEPTION COUNT</li></span> </td></tr>
+					<tr><td>
+					<li><span id="sigiri-tag-exception-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+					</td><td>
+					<li><span id="sigiri-product-exception-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+					</td><td>
+					<li><span id="sigiri-ptitle-exception-count" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">PTitle</span></li>
+					</td>	
+					 </tr>
+					 </table>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 81em" id="sm_5">
+                                        <li><span id="service-xl-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+                                        <li><span id="service-xl-product" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="service-xl-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 91em" id="sm_9">
+                                        <li><span id="service-mb-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+                                        <li><span id="service-mb-product" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="service-mb-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 66em"  id="sm_6">
+                                        <li><span id="row-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+                                        <li><span id="row-product" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="row-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 74em"  id="sm_7">
+                                        <li><span id="eu-tag" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Tag</span></li>
+                                        <li><span id="eu-product" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Product</span></li>
+                                        <li><span id="eu-ptitle" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Ptitle</span></li>
+                                </ul>
+                                <ul class="submenu" style = "margin-left: 57em;width:150px;" id="sm_8">
+					<table width = "100%"> <tr> <td>
+					<li><span style = "color:black;cursor:auto">US</span></li>
+                                        <li><span id="kafka-us-cache" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Cache</span></li>
+                                        <li><span id="kafka-us-index" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Index</span></li>
+					</td> <td valign = "top">
+					<li><span style = "color:black;cursor:auto">EU</span></li>
+                                        <li><span id="kafka-eu-index-latency" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">Index</span></li>
+					</td> 
+					</table>
+				</ul>
+				<ul class="submenu" style = "margin-left: 97em;width:150px;" id="sm_10">
+                                	<li><span id="zk-svs-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">SVS</span></li>
+                                	<li><span id="zk-sdx-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">SDX</span></li>
+                                	<li><span id="zk-atl-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">ATL</span></li>
+                                	<li><span id="zk-iex-dashboard" onclick = "javascript: generateHTML(this.id,0)" oncontextmenu = "javascript:openDefinedPage(this.id);return false;">IEX</span></li>
+                                </ul>
+
+                </ul>
+        </div>
+	<br>
+        <div id = "onDisplay" align = "center">Paritosh Anand</div>
+        <div id = "graphContainer">
+                <iframe id = "dash-frame" src = "" width = "100%" marginheight = "0"  frameBorder = "0" style = "margin-left: -35px" onload='javascript:resizeIframe(this);'></iframe>
+        </div>
+ </body>
+</html>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title> On the FLY </title>
+	<style>
+		@import url(bootstrap.css);
+		@import url(style.css);
+
+		body {
+			padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+		}
+	</style>
+	<script src="d3.v2.js"></script>
+	<script src="cubism.v4.js"></script>
+	<script src="extended-cubism-v2.js"></script>
+	<script type = "text/javascript">
+		var createGraph = function(target,context_,threshold) {
+			//alert(target.value + context.value + threshold.value);
+			var context = cubism.context()
+				.serverDelay(10 * 1000) // allow 15 seconds of collection lag
+				.step(10000) // fifteen seconds per value
+				.size(1440); // fetch 1440 values (720p)
+			
+			var graphite_context = context.graphite(context_.value);
+
+			var metric_def = [
+				graphite_context.metric(target.value),
+				];
+
+			var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+			d3.select("body").selectAll(".axis")
+				.data(["top", "bottom"])
+				.enter().append("div").attr("class", "fluid-row")
+			  	.attr("class", function(d) { return d + " axis"; })
+	       		        .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+			
+			d3.select("body").append("div")
+			    .attr("class", "rule")
+			    .call(context.rule());
+
+			var diven = d3.select("body").selectAll(".horizon")
+			    .data(metric_def)
+			    .enter().insert("div", ".bottom")
+			    .attr("class", "horizon")
+			    .call(horizon.extent([0, 25]).height(60));
+			diven.append("p").attr("class", "latest_v_c").attr("name","latest_val");
+
+		        var matric_arr = [metric_def];
+		        var tag_arr = ["latest_val"];
+		        CUSTOM_FIXED_RULE(context,matric_arr,tag_arr);
+
+		};
+	</script>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>
+				<span>Metric Target</span>
+			</td>
+			<td>
+				<input type = "textbox" id = "metric_target" name = "metric_target" />
+			</td>
+			<td>
+				<span>Graphite</span>
+			</td>
+			<td>
+				<select id = "context_opt" name = "context_opt">
+					<option name = "context" value = "http://sv-graphite2.pv.sv.nextag.com:8080">SVS</option>
+					<option name = "context" value = "http://sd-graphite2.pv.sd.nextag.com:8080">SDX</option>
+					<option name = "context" value = "http://at-graphite2.pv.at.nextag.com:8080">ATL</option>
+					<option name = "context" value = "http://ie-graphite2.pv.ie.nextag.com:8080">IEX</option>
+				</select>
+			</td>
+			<td>
+				<span>Threshold</span>
+			</td>
+			<td>
+				<input type = "textbox" id = "metric_threshold" name = "metric_threshold"  placeholder = "x,y"/>
+			</td>
+			<td>
+				<input type = "button" class = "button"  value = "CREATE" onclick = "createGraph(document.getElementById('metric_target'),document.getElementById('context_opt'),document.getElementById('metric_threshold'))" />
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
+

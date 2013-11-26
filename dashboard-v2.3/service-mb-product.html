@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="1100">
+<title>Wize Commerce</title>
+<style>
+
+@import url(bootstrap.css);
+@import url(style.css);
+
+body {
+  padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+</style>
+<body>
+<!--   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        Frontend Graphite Metrics
+      </div>
+    </div> -->
+
+<script src="d3.v2.js"></script>
+<script src="cubism.v4.js"></script>
+<script>
+
+var context = cubism.context()
+    .serverDelay(10 * 1000) // allow 15 seconds of collection lag
+    .step(10000) // fifteen seconds per value
+    .size(1440); // fetch 1440 values (720p)
+
+//var graphite = context.graphite("http://graphite2.pv.sv.nextag.com:8080");
+	var sv_graphite = context.graphite("http://sv-graphite2.pv.sv.nextag.com:8080");
+	var at_graphite = context.graphite("http://at-graphite2.pv.at.nextag.com:8080");
+	var sdx_graphite = context.graphite("http://sd-graphite2.pv.sd.nextag.com:8080");
+	var ie_graphite = context.graphite("http://ie-graphite2.pv.ie.nextag.com:8080");
+
+var matrics_median = [
+//sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.xl*.product.GetById*.median,10))").alias("SVS Median"),
+//ie_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.IE.ieeuxl*.product.GetById*.median,10))").alias("IEX Median"),
+sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.mb*.product.GetById*.median,10))").alias("Mobile SVS Median"),
+sdx_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.SD.sdmb*.product.GetById*.median,10))").alias("Mobile SDX Median"),
+];
+
+var matrics_95th = [
+//sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.xl*.product.GetById.upper_95,10))").alias("SVS 95th"),
+//ie_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.IE.ieeuxl*.product.GetById.upper_95,10))").alias("IEX 95th"),
+sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.mb*.product.GetById.upper_95,10))").alias("Mobile SVS 95th"),
+sdx_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.SD.sdmb*.product.GetById.upper_95,10))").alias("Mobile SDX 95th"),
+];
+
+var matrics_99th = [
+//sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.xl*.product.GetById.upper_99,10))").alias("SVS 99th"),
+//ie_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.IE.ieeuxl*.product.GetById.upper_99,10))").alias("IEX 99th"),
+sv_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.CN.mb*.product.GetById.upper_99,10))").alias("Mobile SVS 99th"),
+sdx_graphite.metric("averageSeries(movingAverage(stats.timers.Clients.Services.PS.SD.sdmb*.product.GetById.upper_99,10))").alias("Mobile SDX 99th"),
+];
+
+var matrics_sum = [
+//sv_graphite.metric("sumSeries(group(transformNull(stats_counts.Clients.Services.PS.CN.xl*.product.*,0)))").alias("SVS Cache Misses"),
+//ie_graphite.metric("sumSeries(group(transformNull(stats_counts.Clients.Services.PS.IE.ieeuxl*.product.*,0)))").alias("IEX Cache Misses"),
+sv_graphite.metric("sumSeries(group(transformNull(stats_counts.Clients.Services.PS.CN.mb*.product.*,0)))").alias("Mobile SVS Cache Misses"),
+sdx_graphite.metric("sumSeries(group(transformNull(stats_counts.Clients.Services.PS.SD.sdmb*.product.*,0)))").alias("Mobile SDX Cache Misses"),
+];
+
+var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon1 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon2 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon3 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+d3.select("body").selectAll(".axis")
+    .data(["top", "bottom"])
+  .enter().append("div").attr("class", "fluid-row")
+    .attr("class", function(d) { return d + " axis"; })
+    .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+d3.select("body").append("div")
+    .attr("class", "rule")
+    .call(context.rule());
+
+d3.select("body").selectAll(".horizon")
+    .data(matrics_median)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon.extent([0, 30]).height(60));
+
+d3.select("body").selectAll(".horizon1")
+    .data(matrics_95th)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon2.extent([0, 150]).height(60));
+
+d3.select("body").selectAll(".horizon2")
+    .data(matrics_99th)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon2.extent([0, 500]).height(60));
+
+d3.select("body").selectAll(".horizon3")
+    .data(matrics_sum)
+  .enter().insert("div", ".bottom")
+    .attr("class", "horizon").call(horizon2.extent([-15, 15]).height(60));
+
+
+
+context.on("focus", function(i) {
+  d3.selectAll(".value").style("right", i == null ? null : context.size() - 1 - i + "px");
+});
+
+</script>

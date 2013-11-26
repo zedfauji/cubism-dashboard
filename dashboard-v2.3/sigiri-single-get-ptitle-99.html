@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="900">
+<title>Wize Commerce</title>
+<style>
+
+@import url(bootstrap.css);
+@import url(style.css);
+
+body {
+  padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+</style>
+<body>
+<!--   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        Frontend Graphite Metrics
+      </div>
+    </div> -->
+
+<script src="d3.v2.js"></script>
+<script src="cubism.v4.js"></script>
+<script src="extended-cubism-v2.js"></script>
+<script>
+
+var context = cubism.context()
+    .serverDelay(10) // allow 15 seconds of collection lag
+    .step(60000) // fifteen seconds per value
+    .size(1440); // fetch 1440 values (720p)
+//var graphite = context.graphite("http://graphite2.pv.sv.nextag.com:8080");
+	var sv_graphite = context.graphite("http://sv-graphite2.pv.sv.nextag.com:8080");
+	var at_graphite = context.graphite("http://at-graphite2.pv.at.nextag.com:8080");
+	var sdx_graphite = context.graphite("http://sd-graphite2.pv.sd.nextag.com:8080");
+	var ie_graphite = context.graphite("http://ie-graphite2.pv.ie.nextag.com:8080");
+var matrics_99 = [
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri1.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri1-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri2.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri2-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri3.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri3-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri4.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri4-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri5.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri6.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri7.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri8.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+sv_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SV.sv-sigiri9.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SVS-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri1.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri1-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri2.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri2-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri3.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri3-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri4.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri4-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri5.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri6.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri6-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri7.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri7-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri8.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri8-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri9.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri9-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri10.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri10-Ptitle read latency -99th Upper").summarize("avg"),
+sdx_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.SD.sd-sigiri11.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("SDX-Sigiri11-Ptitle read latency -99th Upper").summarize("avg"),
+
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri1.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri1-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri2.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri2-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri3.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri3-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri4.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri4-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri5.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri6.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri6-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri7.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri7-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri8.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri8-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri9.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri9-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri10.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri10-Ptitle read latency -99th Upper").summarize("avg"),
+at_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.AT.at-sigiri11.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("ATL-Sigiri11-Ptitle read latency -99th Upper").summarize("avg"),
+
+ie_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.IE.ie-sigiri1.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("IEX-Sigiri1-Ptitle read latency -99th Upper").summarize("avg"),
+ie_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.IE.ie-sigiri2.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("IEX-Sigiri2-Ptitle read latency -99th Upper").summarize("avg"),
+ie_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.IE.ie-sigiri3.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("IEX-Sigiri3-Ptitle read latency -99th Upper").summarize("avg"),
+ie_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.IE.ie-sigiri4.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("IEX-Sigiri4-Ptitle read latency -99th Upper").summarize("avg"),
+ie_graphite.metric("movingAverage(averageSeries(transformNull(stats.timers.Services.IE.ie-sigiri5.ptitle.SingleGet.ReadLatency.upper_99,0)),10)").alias("IEX-Sigiri5-Ptitle read latency -99th Upper").summarize("avg"),
+];
+var horizon = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon1 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon1 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+var horizon3 = context.horizon().colors(["#08519c", "#*82bd", "#6baed6","#FFCC00","#FF9900","#FF0000" ]);
+
+	d3.select("body").selectAll(".axis")
+		.data(["top", "bottom"])
+		.enter().append("div").attr("class", "fluid-row")
+		.attr("class", function(d) { return d + " axis"; })
+		.each(function(d) { d3.select(this).call(context.axis().ticks(24).orient(d)); });
+
+	d3.select("body").append("div")
+		.attr("class", "rule")
+		.call(context.rule());
+
+
+    var diven = d3.select("body").selectAll(".horizon1")
+		.data(matrics_99)
+		.enter().insert("div", ".bottom")
+		.attr("class", "horizon").call(horizon1.extent([-60, 300]).height(30));
+
+	diven.append("p").attr("class", "latest_v_c").attr("name","latest_val");
+
+	var matric_arr = [matrics_99];
+	var tag_arr = ["latest_val"];
+	CUSTOM_FIXED_RULE(context,matric_arr,tag_arr);
+</script>
